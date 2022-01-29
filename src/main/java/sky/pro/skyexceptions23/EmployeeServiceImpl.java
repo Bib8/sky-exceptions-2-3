@@ -34,6 +34,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    @Override
+    public String addEmployee(String firstName, String lastName) {
+        return null;
+    }
+
+    @Override
+    public String removeEmployee(String firstName, String lastName) {
+        return null;
+    }
+
+    @Override
+    public String findEmployee(String firstName, String lastName) {
+        return null;
+    }
 
 
 }
