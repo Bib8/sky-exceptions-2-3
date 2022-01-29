@@ -1,6 +1,5 @@
 package sky.pro.skyexceptions23;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,9 +22,13 @@ public class EmployeeController {
     public String addEmployee(@RequestParam("fn") String firstname, @RequestParam("ln") String lastname) {
         return employeeService.addEmployee(firstname, lastname);
     }
-@GetMapping(path = "/RMEmployee")
+@GetMapping(path = "/rmEmployee")
     public String removeEmployee(@RequestParam("fn") String firstname, @RequestParam("ln") String lastname) {
         return employeeService.removeEmployee(firstname, lastname);
+    }
+@GetMapping(path = "/findEmployee")
+    public String findEmployee(@RequestParam("fn") String firstname, @RequestParam("ln") String lastname) {
+        return employeeService.findEmployee(firstname, lastname);
     }
 
 }

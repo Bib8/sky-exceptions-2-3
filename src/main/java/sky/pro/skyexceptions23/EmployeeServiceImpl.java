@@ -1,13 +1,10 @@
 package sky.pro.skyexceptions23;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import sky.pro.skyexceptions23.classes.Employee;
 
-import java.util.List;
-
 @Service
-public class EmployeeServiceImpl<employees> implements EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService {
 
     Employee[] employees = {
            new Employee("FirstName1", "LastName1"),
@@ -15,10 +12,8 @@ public class EmployeeServiceImpl<employees> implements EmployeeService {
            new Employee("FirstName3", "LastName3")
     };
 
-    @Override
-    public String getEmployee(Integer id) {
-        return getEmployee(id);
-    }
+
+
 
     @Override
     public String getFullNameEmployee(Integer id) {
@@ -35,12 +30,7 @@ public class EmployeeServiceImpl<employees> implements EmployeeService {
         int arrayLength = employees.length + 1;
         Employee[] buffer = new Employee[arrayLength];
         if (firstName != null && lastName != null){
-            for (int i = 0; i < employees.length; i++) {
-
-                    buffer[i] = employees[i];
-
-
-            }
+            System.arraycopy(employees, 0, buffer, 0, employees.length);
             buffer[arrayLength - 1] = new Employee(firstName, lastName);
             employees = buffer;}
         else {
@@ -51,12 +41,11 @@ public class EmployeeServiceImpl<employees> implements EmployeeService {
 
     @Override
     public String removeEmployee(String firstName, String lastName) {
-        Employee[] buffer = new Employee[employees.length];
+        Employee[] buffer = new Employee[employees.length - 1];
         if (firstName != null && lastName != null){
             for (int i = 0; i < employees.length; i++) {
-                    if (!employees[i].equals(firstName) && !employees[i].equals(lastName)){
+                    if (!employees[i].getFirstname().equals(firstName) && !employees[i].getLastName().equals(lastName)){
                         buffer[i] = employees[i];
-                        employees[i] = buffer [i];
                     }
             }
             employees = buffer;
@@ -66,8 +55,14 @@ public class EmployeeServiceImpl<employees> implements EmployeeService {
 
     @Override
     public String findEmployee(String firstName, String lastName) {
-        return null;
-    }
+        int index = 0;
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i].getFirstname().equals(firstName) && employees[i].getLastName().equals(lastName)) {
+                index = i;
+            }
+        }
 
+        return String.join(" ", "found on ID", Integer.toString(index), employees[index].getFirstname(), employees[index].getLastName());
+    }
 
 }
