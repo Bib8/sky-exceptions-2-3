@@ -14,13 +14,9 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("hi")
-        public String hello() {
-            return "hi";
-        }
     @GetMapping(path = "/employee/{id}")
     public String getFullNameEmployee(@PathVariable("id") Integer id) {
-        return getFullNameEmployee(id);
+        return employeeService.getFullNameEmployee(id);
     }
 
 }

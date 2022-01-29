@@ -26,8 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public String getFullNameEmployee(Integer id) {
         try {
-            String fullNameEmployee = employees[id].getFirstname() + " " + employees[id].getLastName();
-            return fullNameEmployee;
+           return employees[id].getFirstname() + " " + employees[id].getLastName();
         } catch (ArrayIndexOutOfBoundsException exception) {
             return "badRequest Not Found";
         } catch (NullPointerException nullPointerException){
