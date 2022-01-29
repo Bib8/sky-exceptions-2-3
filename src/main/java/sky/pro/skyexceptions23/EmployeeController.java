@@ -20,7 +20,7 @@ public class EmployeeController {
         }
     @GetMapping(path = "/employee/{id}")
     public String getFullNameEmployee(@PathVariable("id") Integer id) {
-        return employeeService.getFullNameEmployee(id).toString();
+        return getFullNameEmployee(id);
     }
 
 }

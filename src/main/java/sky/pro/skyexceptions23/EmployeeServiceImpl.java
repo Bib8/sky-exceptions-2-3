@@ -2,21 +2,20 @@ package sky.pro.skyexceptions23;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import sky.pro.skyexceptions23.classes.Employee;
+
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    Repository employeesRepository;
+    Employee[] employees = {
+           new Employee("FirstName1", "LastName1"),
+           new Employee("FirstName2", "LastName2"),
+           new Employee("FirstName3", "LastName3")
+    };
 
-    {
-        employeesRepository.addEmployee("Name1", "LastName1");
-        employeesRepository.addEmployee("Name2", "LastName2");
-        employeesRepository.addEmployee("Name3", "LastName3");
-        employeesRepository.addEmployee("Name4", "LastName4");
-        employeesRepository.addEmployee("Name5", "LastName5");
-        employeesRepository.addEmployee("Name6", "LastName6");
-        employeesRepository.addEmployee("Name7", "LastName7");
-    }
+
 
 
     @Override
@@ -25,11 +24,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Object getFullNameEmployee(Integer id) {
-        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
-
+    public String getFullNameEmployee(Integer id) {
         try {
-            return employeesRepository.getEmployee(id);
+            String fullNameEmployee = employees[id].getFirstname() + " " + employees[id].getLastName();
+            return fullNameEmployee;
         } catch (ArrayIndexOutOfBoundsException exception) {
             return "badRequest Not Found";
         } catch (NullPointerException nullPointerException){
