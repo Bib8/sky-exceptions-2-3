@@ -1,4 +1,4 @@
-package sky.pro.skyexceptions23.classes;
+package sky.pro.skyexceptions23.model;
 
 public class Employee extends Person{
 

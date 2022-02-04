@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import sky.pro.skyexceptions23.interfaces.EmployeeService;
 import sky.pro.skyexceptions23.exceptions.NotFoundAnyFreeSlotException;
 import sky.pro.skyexceptions23.exceptions.NotFoundAnyMatchException;
-import sky.pro.skyexceptions23.classes.Employee;
+import sky.pro.skyexceptions23.model.Employee;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -18,10 +18,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public String getFullNameEmployee(Integer id) {
        try {
-           return String.join(" ", employees[id].getFirstname(), employees[id].getLastName());
+           return getFullName(employees[id]);
        } catch (NullPointerException | ArrayIndexOutOfBoundsException exception){
            return String.join(" ", "No match by your request id = ", Integer.toString(id));
        }
+    }
+
+    private String getFullName(Employee employee) {
+        return String.join(" ", employee.getFirstname(), employee.getLastName());
     }
 
     @Override
@@ -30,22 +34,26 @@ public class EmployeeServiceImpl implements EmployeeService {
             employees = doubleSizeOfRepository();
         } catch (NotFoundAnyFreeSlotException notFoundAnyFreeSlotException) {
             notFoundAnyFreeSlotException.printStackTrace();
-        }  employees[employees.length / 2 + 1] = new Employee(firstName, lastName);
+        }
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] == null){
+                employees[i] = new Employee(firstName, lastName);
+            }
+        }
         return firstName + " " + lastName + ": added to rep";
     }
 
     public Integer employeeCount() {
         int count = 0;
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null)
-            count = i;
-        }
+        for (Employee employee : employees)
+            if (employee != null)
+                count++;
         return count;
     }
 
     public Employee[] doubleSizeOfRepository() throws NotFoundAnyFreeSlotException{
         Integer empolyeesQTY = employeeCount();
-        if (empolyeesQTY <= employees.length){
+        if (empolyeesQTY == employees.length){
             Employee[] buffer = new Employee[empolyeesQTY * 2];
             System.arraycopy(employees, 0, buffer, 0, employees.length);
             employees = buffer;
@@ -64,6 +72,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                 }
             } catch (NotFoundAnyMatchException exception) {
                 exception.printStackTrace();
+            } catch (NullPointerException exception){
+                return "Not found";
             }
         }
         return "Employer removed";
@@ -88,15 +98,37 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Integer findId(String firstName, String lastName) throws NotFoundAnyMatchException{
         Integer id = null;
         for (int i = 0; i < employees.length; i++) {
-            if (!(employees[i].getFirstname().equals(firstName) && employees[i].getLastName().equals(lastName))) {
-                continue;
-            }
-            id = i;
-        }
-        return id;
+            if (employees[i].getFirstname().equals(firstName) && employees[i].getLastName().equals(lastName)) {
+                id = i;
+            }else throw new NotFoundAnyMatchException();
+        } return id;
     }
 
+    private String getNFMessage(Integer id) {
+        return String.join(" ", "Employee by ID = ", Integer.toString(id), "not found");
+    }
 
+    @Override
+    public String updateEmployee(String firstName, String lastName, Integer id) {
+        if (employees.length > id) {
+            Employee employee = employees[id];
+            employee.setFirstname(firstName);
+            employee.setLastName(lastName);
+            return getFullNameEmployee(id);
+        }else {
+            return getNFMessage(id);
+        }
+    }
+
+    @Override
+    public String addEmployeePerson(String firstName, String lastName) {
+        return null;
+    }
+
+    @Override
+    public String deleteEmployee(Integer id) {
+        return null;
+    }
 
 }
 

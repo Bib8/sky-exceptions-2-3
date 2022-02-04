@@ -1,4 +1,4 @@
-package sky.pro.skyexceptions23.classes;
+package sky.pro.skyexceptions23.model;
 
 import java.util.Objects;
 
